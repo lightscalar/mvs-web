@@ -1,8 +1,8 @@
 {
-  "name": "annotate",
+  "name": "Microscopic Video Surveillance System",
   "version": "1.0.0",
   "description": "Annotation software for biomonitor",
-  "author": "Matthew J. Lewis, Ph.D. <lightscalar@gmail.com>",
+  "author": "Oliver Hill & Matthew J. Lewis",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
