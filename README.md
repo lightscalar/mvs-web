@@ -1,6 +1,6 @@
 # annotate
 
-> Annotation software for biomonitor
+> UX for the Microscopic Video Surveillance System (MVS).
 
 ## Build Setup
 

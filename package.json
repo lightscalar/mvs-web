@@ -1,5 +1,5 @@
 {
-  "name": "Microscopic Video Surveillance System",
+  "name": "microscopic_video_surveillance_system",
   "version": "1.0.0",
   "description": "Annotation software for biomonitor",
   "author": "Oliver Hill & Matthew J. Lewis",
@@ -12,9 +12,11 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bulma": "^0.5.1",
+    "d3": "^4.10.0",
     "vue": "^2.3.3",
     "vue-router": "^2.6.0",
-    "vuetify": "^0.14.8"
+    "vuetify": "^0.14.8",
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

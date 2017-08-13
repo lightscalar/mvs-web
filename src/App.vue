@@ -1,5 +1,5 @@
 <template>
-  <v-app id="annotate-app">
+  <v-app id="mvs-app">
     <v-navigation-drawer persistent light :mini-variant.sync="mini" class='white' v-model="drawer" overflow>
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
@@ -8,7 +8,7 @@
               <img class='logo' src='./assets/bare-logo@2x.png'>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>Annotation Options</v-list-tile-title>
+              <v-list-tile-title>MVS Options</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-btn icon @click.native.stop="mini = !mini">
@@ -20,7 +20,19 @@
       </v-toolbar>
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
-        <v-list-tile v-for="item in items" :key="item.title">
+        <v-list-tile v-for="item in items" :key="item.title" @click.native='menuHandler(item)'>
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-divider style='width:1px' dark></v-divider>
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+        <v-list-tile v-for="item in settings" :key="item.title" @click.native='menuHandler(item)'>
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -31,8 +43,11 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed class="" flat dark>
-      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <img src='./assets/site-logo@2x.png' class='logo'>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer">
+      </v-toolbar-side-icon>
+      <a href='/'>
+        <img src='./assets/mvs-logo@2x.png' class='logo title-logo'>
+      </a>
     </v-toolbar>
     <main>
     <v-container fluid>
@@ -52,12 +67,24 @@ export default {
     return {
       drawer: null,
       items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'Library', icon: 'view_list' },
-        { title: 'Cohorts', icon: 'people' }
+        { title: 'Home', icon: 'home', route: 'Home' },
+        { title: 'New Experiment', icon: 'add_circle_outline', route: 'CreateExperiment'},
+        { title: 'Archive', icon: 'cloud', route: 'Archive' },
+        { title: 'System Status', icon: 'assessment' },
+      ],
+      settings: [
+        { title: 'Settings', icon: 'settings' },
+        { title: 'Help', icon: 'help' },
       ],
       mini: false,
+      large: true,
       right: null
+    }
+  },
+
+  methods: {
+    menuHandler(item) {
+      this.$router.push({name: item.route})
     }
   }
 
@@ -67,6 +94,9 @@ export default {
 <style lang="css">
 .logo {
   height: 40px;
+}
+.title-logo {
+  margin-left: 25px;
 }
 .header {
   background-color: #305580;
