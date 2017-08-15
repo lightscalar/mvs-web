@@ -31,18 +31,19 @@
 
     data () {
       return {
-        cursorLocation: [{x:0, y:0}]
+        cursorLocation: [{x:0, y:0, z:0}]
       }
     },
-
     watch: {
       targets() {
         this.updateTargets()
       }
     },
-
     methods: {
       navigateToCursor() {
+        var cmd = {targetPosition: this.cursorLocation,
+          commandString: 'moveToTarget', active: true}
+        this.$store.dispatch('executeCommand', cmd)
       },
       updateDish(clickData) {
         console.log(clickData)

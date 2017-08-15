@@ -38,7 +38,7 @@ export default new Vuex.Store({
     setCurrentExperiment(state, data) {
       state.currentExperiment = data
     },
-unitIdsetExperimentList(state, data) {
+    setExperimentList(state, data) {
       state.experiments = data
     },
     setTargets(state, data) {
@@ -102,6 +102,11 @@ unitIdsetExperimentList(state, data) {
     updateTarget(context, data) {
       api.putResource('target', data).then(function(resp) {
         context.commit('setTarget', resp.data)
+      })
+    },
+    executeCommand(context, data) {
+      api.postResource('unit_commands', data).then(function(resp) {
+        console.log('Command Submitted.')
       })
     },
     createTarget(context, data) {

@@ -21,23 +21,24 @@
           <v-icon>home</v-icon>
         </v-btn>
         <b>|</b>
-        <v-btn big class='black' icon dark >
+        <v-btn big class='black' icon dark @click.native="executeCommand('moveOut')">
           <v-icon>keyboard_arrow_up</v-icon>
         </v-btn>
-        <v-btn big class='black' icon dark >
+        <v-btn big class='black' icon dark @click.native="executeCommand('moveIn')">
           <v-icon>keyboard_arrow_down</v-icon>
         </v-btn>
-        <v-btn big class='black' icon dark >
-          <v-icon>keyboard_arrow_left</v-icon>
         </v-btn>
-        <v-btn big class='black' icon dark >
-          <v-icon>keyboard_arrow_right</v-icon>
+        <v-btn big class='black' icon dark @click.native="executeCommand('rotateLeft')">
+          <v-icon>undo</v-icon>
+        </v-btn>
+        <v-btn big class='black' icon dark @click.native="executeCommand('rotateRight')">
+          <v-icon>redo</v-icon>
         </v-btn>
         <b>|</b>
-        <v-btn big class='blue-grey' icon dark >
+        <v-btn big class='blue-grey' icon dark @click.native="executeCommand('zoomIn')">
           <v-icon>zoom_in</v-icon>
         </v-btn>
-        <v-btn big class='blue-grey' success icon dark >
+        <v-btn big class='blue-grey' success icon dark @click.native="executeCommand('zoomOut')">
           <v-icon>zoom_out</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
@@ -84,13 +85,19 @@
     data () {
       return {
         addTarget: false,
-        targetName: ''
+        targetName: '',
+        moveUp: 'moveUp'
       }
     },
 
     methods: {
       openTargetModal() {
         this.addTarget = true
+      },
+      executeCommand(cmd) {
+        console.log('Executing ' + cmd)
+        var data = {commandString: cmd, active: true}
+        this.$store.dispatch('executeCommand', data)
       },
       createTarget() {
         var data = {target:{name: this.targetName}, experiment: this.experiment}
