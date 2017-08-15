@@ -1,8 +1,8 @@
 import axios from 'axios'
 window.axios = axios
 
-// const BASE_URL = 'http://localhost:5000'
-const BASE_URL = 'http://mvs-server.ngrok.io'
+const BASE_URL = 'http://localhost:5000'
+// const BASE_URL = 'http://mvs-server.ngrok.io'
 
 // Basic API for talking to the webserver API.
 export default {
@@ -32,8 +32,18 @@ export default {
     return axios.post(url, data)
   },
 
+  postNestedResource(parentResource, parentId, childResource, data) {
+    var url = BASE_URL + '/' + parentResource + '/' + parentId + '/' + childResource
+    return axios.post(url, data)
+  },
+
+  listNestedResource(parentResource, parentId, childResource) {
+    var url = BASE_URL + '/' + parentResource + '/' + parentId + '/' + childResource
+    return axios.get(url)
+  },
+
   putResource(resourceName, data) {
-    var url = BASE_URL + '/' + resourceName + '/' + data.id
+    var url = BASE_URL + '/' + resourceName + '/' + data._id
     return axios.put(url, data)
   },
 

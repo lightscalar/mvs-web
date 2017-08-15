@@ -1,6 +1,7 @@
 <template>
   <v-app id="mvs-app">
-    <v-navigation-drawer persistent light :mini-variant.sync="mini" class='white' v-model="drawer" overflow>
+    <v-navigation-drawer persistent light :mini-variant.sync="mini" class='white'
+      v-model="drawer">
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar tag="div">
@@ -50,7 +51,7 @@
       </a>
     </v-toolbar>
     <main>
-    <v-container fluid>
+    <v-container fluid id='mainApp'>
       <router-view></router-view>
     </v-container>
     </main>
@@ -86,6 +87,10 @@ export default {
     menuHandler(item) {
       this.$router.push({name: item.route})
     }
+  },
+
+  mounted() {
+    this.$store.dispatch('getUnits')
   }
 
 }

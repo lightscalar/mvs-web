@@ -3,8 +3,10 @@ import Vuex from 'vuex'
 import api from '../api/index'
 Vue.use(Vuex)
 
-var defaultExperiment = {title: '', description: '', moduleId: 0}
+var defaultExperiment = {title: '', description: '', unitId: 0}
 var experimentList = []
+var defaultUnit = {name: 'Unit-01', position: {x:-1, y:-1, z:-1}, unitId: 0}
+var selectedTargetId = ''
 
 export default new Vuex.Store({
 
@@ -12,7 +14,10 @@ export default new Vuex.Store({
   state: {
     currentExperiment: {title: null, description: null, createdAt: null},
     experiments: [],
-    units: []
+    targets: [],
+    target: {schedule: {}},
+    units: {0: defaultUnit},
+    selectedTargetId: ''
   },
 
   // -------- GETTERS --------------------------
@@ -33,11 +38,20 @@ export default new Vuex.Store({
     setCurrentExperiment(state, data) {
       state.currentExperiment = data
     },
-    setExperimentList(state, data) {
+unitIdsetExperimentList(state, data) {
       state.experiments = data
     },
+    setTargets(state, data) {
+      state.targets = data
+    },
+    setTarget(state, data) {
+      state.target = data
+    },
     setUnits(state, data) {
-      state.units = data
+      state.units = {}
+      for (var k=0; k< data.length; k++) {
+       state.units[data[k].unitId] = data[k]
+      }
     },
   },
 
@@ -46,6 +60,7 @@ export default new Vuex.Store({
     getExperiment(context, id) {
       api.getResource('experiment', id).then(function(resp) {
         context.commit('setCurrentExperiment', resp.data)
+        context.dispatch('listTargets', resp.data._id)
       })
     },
     createExperiment(context, data) {
@@ -61,6 +76,11 @@ export default new Vuex.Store({
         context.commit('setExperimentList', resp.data)
       })
     },
+    listTargets(context, experiment_id) {
+      api.listNestedResource('experiment', experiment_id, 'targets').then(function(resp) {
+        context.commit('setTargets', resp.data)
+      })
+    },
     deleteExperiment(context, id) {
       // Delete the session at /id.
       api.deleteResource('experiment', id).then(function(resp) {
@@ -69,8 +89,33 @@ export default new Vuex.Store({
       })
     },
     getUnits(context) {
-      api.getResource('units').then(function(resp) {
+      api.listResource('units').then(function(resp) {
         context.commit('setUnits', resp.data)
+      })
+    },
+    getTarget(context, id) {
+      api.getResource('target', id).then(function(resp) {
+        context.commit('setTarget', resp.data)
+        context.dispatch('getExperiment', resp.data._experimentId)
+      })
+    },
+    updateTarget(context, data) {
+      api.putResource('target', data).then(function(resp) {
+        context.commit('setTarget', resp.data)
+      })
+    },
+    createTarget(context, data) {
+      // Update current unit state (important!)
+      var experiment = data.experiment
+      var target = data.target
+      api.listResource('units').then(function(resp) {
+        context.commit('setUnits', resp.data)
+        // Now create a target using latest platform location (TODO: integers)
+        target.position = context.state.units[experiment.unitId].position
+        api.postNestedResource('experiment', experiment._id, 'targets', target)
+          .then(function(resp) {
+            router.push({name: 'Target', params: {id: resp.data._id}})
+          })
       })
     }
   }

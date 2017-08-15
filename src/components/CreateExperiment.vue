@@ -24,11 +24,11 @@
         </v-text-field>
         <v-select
               v-bind:items="items"
-              v-model="moduleId"
-              label="Microscope Module"
+              v-model="unitId"
+              label="Microscope Unit"
               single-line
               bottom
-              hint="Experiment's microscope module."
+              hint="Experiment's microscope unit."
               persistent-hint>
         </v-select>
       </v-card-text>
@@ -49,28 +49,30 @@
 
     data () {
       return {
-        moduleId: null,
+        unitId: null,
         errorText: null,
         title: null,
         snackbar: false,
         description: null,
-        items: [{'text': 'Module-01', id: 0},
-                {'text': 'Module-02', id: 1, disabled: true},
-                {'text': 'Module-03', id: 2, disabled: true},
-                {'text': 'Module-04', id: 3, disabled: true}]
+        items: [{'text': 'Unit-01', id: 0},
+                {'text': 'Unit-02', id: 1, disabled: true},
+                {'text': 'Unit-03', id: 2, disabled: true},
+                {'text': 'Unit-04', id: 3, disabled: true},
+                {'text': 'Unit-05', id: 4, disabled: true},
+                {'text': 'Unit-06', id: 5, disabled: true}]
       }
     },
 
     methods: {
 
       createExperiment() {
-        if (this.moduleId == null) {
+        if (this.unitId == null) {
           this.errorText = 'You must select a Microscrope Module for the experiment.'
             console.log('NOPE!')
           this.snackbar=true
         }
         var experiment = {title: this.title, description: this.description,
-                      moduleId: this.moduleId.id}
+                      unitId: this.unitId.id}
         this.$store.dispatch('createExperiment', experiment)
       }
     },

@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import CreateExperiment from '@/components/CreateExperiment'
 import ListExperiments from '@/components/ListExperiments'
 import Experiment from '@/components/Experiment'
+import Target from '@/components/Target'
 
 Vue.use(Router)
 
@@ -15,6 +16,9 @@ var experimentRoute = {path: '/experiment/:id', name: 'Experiment',
 var listExperimentsRoute = {path: '/experiments/archive',
                             name: 'Archive',
                             component: ListExperiments}
+var targetRoute = {path: '/target/:id',
+                            name: 'Target',
+                            component: Target, props: true}
 
 export default new Router({
   routes: [
@@ -25,6 +29,7 @@ export default new Router({
     },
     createExperimentRoute,
     experimentRoute,
-    listExperimentsRoute
+    listExperimentsRoute,
+    targetRoute
   ]
 })

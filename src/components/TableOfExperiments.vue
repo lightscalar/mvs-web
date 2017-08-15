@@ -1,9 +1,8 @@
 <template>
-  <div>
-
   <v-data-table
     v-bind:search='search'
     v-bind:headers="headers"
+    no-data-text='No Experiments in Database!'
     v-bind:pagination.sync="pagination"
     :items="items"
     class="elevation-0">
@@ -11,7 +10,7 @@
       <td class="text-xs-left">
         <router-link :to="{name:'Experiment', params:{id: props.item._id}}">
           <v-chip class='red darken-3 chipper'>
-          {{props.item.title}}
+            {{props.item.title}}
           </v-chip>
         </router-link>
       </td>
@@ -19,7 +18,6 @@
       <td class="text-xs-left">{{ props.item.createdAt }}</td>
     </template>
   </v-data-table>
-  </div>
 </template>
 
 

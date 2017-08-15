@@ -1,5 +1,4 @@
 <template>
-
   <v-layout>
     <v-flex xs12>
       <v-card class='elevation-1 black white--text'>

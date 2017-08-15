@@ -8,17 +8,21 @@
     class="elevation-0">
     <template slot="items" scope="props">
       <tr v-bind:class="{ active: props.item.selected }"
-                           :active="props.item.selected" @click="clickTarget(props.item)">
+          :active="props.item.selected">
         <td>
-          <a href='#'>
-          <v-chip class="chipper red darken-3 white--text">
-            {{ props.item.title }}
-          </v-chip>
-          </a>
+          {{props.index+1}}
         </td>
-       <td>
-         30, 200
-       </td>
+        <router-link :to="{name:'Target', params:{id: props.item._id}}">
+          <v-chip class="chipper red darken-3 white--text">
+            {{ props.item.name }}
+          </v-chip>
+        </router-link>
+          </td>
+          <td @click="clickTarget(props.item)">
+            <v-chip outline class="primary primary--text">
+              <v-icon left>my_location</v-icon>Visit Target
+            </v-chip>
+          </td>
       </tr>
     </template>
   </v-data-table>
@@ -31,35 +35,27 @@
 
   export default {
     components: {},
+    props: ['experiment'],
 
     data () {
       return {
         selected: [],
         headers: [
-          {text: 'Target', align: 'left', value: 'title'},
-          {text: 'Location (x, y)', align: 'left', value: 'location'}],
-        items: [{title: 'Cell Clump 01', location: '(4, 23)',
-          updatedAt: 'Just Now', selected: false },
-          {_id: 1, title: 'Vessel Branch Point', location: '(4, 23)',
-            updatedAt: 'Just Now', selected: false }]
+          {text: '', align: 'right', value: 'index', sortable:false},
+          {text: 'Target Name', align: 'left', value: 'name'},
+          {text: '', align: 'left', value: 'numberImages'}],
       }
     },
-
 
     methods: {
       clickTarget(item) {
-        for (var k=0; k<this.items.length; k++) {
-          this.items[k].selected = false
-        }
-        item.selected=true
         EventBus.$emit('targetSelect', item)
       }
-
     },
 
     computed: {
-      systemStatus() {
-        return this.$store.state.systemStatus
+      items() {
+        return this.$store.state.targets
       }
     },
 
@@ -72,7 +68,7 @@
 <style scoped>
 tr.active  {
   color: white;
-  background-color: #898989 !important
+  background-color: #cfcfcf !important
 }
 .chipper {
   cursor: pointer
